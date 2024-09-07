@@ -106,10 +106,11 @@ def update_pages(weight_dict: dict[str, int]):
         with open(page, "rb") as html_buf:
             html = html_buf.read()
         soup = BeautifulSoup(html, "html.parser")
-        old_text = soup.find("span", {"id": "page-size"})
-        old_text.string.replaceWith(f"{weight/1000}")
-        with open(page, "wb") as f_output:
-            f_output.write(soup.prettify("utf-8"))
+        old_text = soup.find("span", {"id": "hugo-sizer"})
+        if old_text is not None:
+            old_text.string.replaceWith(f"{weight/1000}")
+            with open(page, "wb") as f_output:
+                f_output.write(soup.prettify("utf-8"))
     print(f"Updated {len(weight_dict)} pages")
 
 
